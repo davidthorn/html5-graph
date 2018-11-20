@@ -45,23 +45,7 @@ class GraphObject {
         
     }
 
-    drawYAxisIncrement(pieces, increments, centerPos, lineYPosition , isNegative) {
-        
-        let space = ((this.frame.height  / 2) - this.frame.margin.y) / pieces ;
-
-        for(let x = 1; x <= pieces; x++) {
-
-            let lineY =  (lineYPosition * x); // same
-            
-            let isModulus = this.isIncrementModulus(x, increments); // same
-
-            this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos + lineY + 5, isNegative ? -x : x );
-
-            let color = this.getColor(isModulus);
-
-            this.line( this.frame.centerX() - 5 , centerPos + lineY  , this.frame.centerX() + 5  , centerPos + lineY , color);
-         }
-    }
+    
 
     drawYAxis(yAxis, increments = 1) {
         
@@ -76,54 +60,47 @@ class GraphObject {
         this.drawYAxisIncrement(pieces , increments , centerPos , -space , false);
         this.drawYAxisIncrement(pieces , increments , centerPos , space , true);
 
-        // for(let x = 1; x <= pieces; x++) {
-
-        //     let lineY =  (space * x);
-            
-        //     let isModulus = this.isIncrementModulus(x, increments);
-
-        //     this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos + (space * x) + 5, -x );
-
-        //     let color = this.getColor(isModulus);
-
-        //     this.line( this.frame.centerX() - 5 , centerPos + lineY  , this.frame.centerX() + 5  , centerPos + lineY , color);
-        // }
-
     }
 
     drawXAxis(xAxis, increments = 1 ) {
         
         this.line(this.frame.margin.x , this.frame.centerY() , this.frame.width - this.frame.margin.x, this.frame.centerY()); /// horizontal line x axis
         
-        const pieces = xAxis;
+        let space = ((this.frame.width  / 2) - this.frame.margin.x) / xAxis ;
 
-        let space = ((this.frame.width  / 2) - this.frame.margin.x) / pieces ;
+        this.drawXAxisIncrement(xAxis , increments , this.frame.width / 2 , space , false)
+        this.drawXAxisIncrement(xAxis , increments , this.frame.width / 2 , -space , true)
+    }
 
-        for(let x = pieces; x >=  0; x--) {
+    drawYAxisIncrement(pieces, increments, centerPos, lineYPosition , isNegative) {
+        
+        for(let x = 1; x <= pieces; x++) {
 
-            let lineX =  (space * x) + 10;
+            let lineY =  (lineYPosition * x); // same
             
-            let isModulus = this.isIncrementModulus(x, increments);
+            let isModulus = this.isIncrementModulus(x, increments); // same
 
-            this.addLabel(isModulus, (space * (pieces - x) ) + 10, this.frame.centerY() + 20  , -x );
+            this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos + lineY + 5, isNegative ? -x : x );
 
             let color = this.getColor(isModulus);
 
-            this.line( lineX , this.frame.centerY() - 5, lineX , this.frame.centerY() + 5, color);
+            this.line( this.frame.centerX() - 5 , centerPos + lineY  , this.frame.centerX() + 5  , centerPos + lineY , color);
          }
+    }
 
-         for(let x = 1; x <= pieces; x++) {
+    drawXAxisIncrement(pieces, increments, centerPos, lineXPosition , isNegative) {
+        
+        for(let x = 1; x <= pieces; x++) {
 
-            let bufferLeft = this.frame.width / 2; 
-            let lineX =  (space * x) + bufferLeft;
-
-            let isModulus = this.isIncrementModulus(x, increments);
+            let lineX =  (lineXPosition * x); // same
             
-            this.addLabel(isModulus, bufferLeft + (x * space), this.frame.centerY() + 20  , x );
+            let isModulus = this.isIncrementModulus(x, increments); // same
+
+            this.addLabel(isModulus, centerPos + lineX , this.frame.centerY() + 20 , isNegative ? -x : x );
 
             let color = this.getColor(isModulus);
-            this.line( lineX , this.frame.centerY() - 5, lineX , this.frame.centerY() + 5, color);
-             
+
+            this.line( centerPos + lineX , this.frame.centerY() - 5 ,  centerPos + lineX  , this.frame.centerY() + 5  , color);
          }
     }
 
