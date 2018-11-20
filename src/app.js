@@ -36,11 +36,71 @@ class GraphObject {
         this.frame = frame;
     }
 
-    draw(xAxis, increments = 1) {
+    draw(xAxis, incrementsX = 1, yAxis, incrementsY = 1) {
 
         this.context.fillStyle = 'white';
         this.context.fillRect(0,0, this.frame.width , this.frame.height);
+        this.drawXAxis(xAxis, incrementsX);
+        this.drawYAxis(yAxis, incrementsY);
+        
+    }
+
+    drawYAxis(yAxis, increments = 1) {
+        
         this.line(this.frame.centerX() , this.frame.margin.y , this.frame.centerX() , this.frame.height - this.frame.margin.y); /// vertical line y axis
+        
+        const pieces = yAxis;
+
+        let space = ((this.frame.height  / 2) - this.frame.margin.y) / pieces ;
+
+        let centerPos = this.frame.height / 2;
+
+        for(let x = 1; x <= pieces; x++) {
+
+            /// hit the absolute middle first and then go up
+            let lineY =  (space * x);
+            
+            let isModulus = this.isIncrementModulus(x, increments);
+
+            this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos - (space * x) + 5, x );
+
+            let color = this.getColor(isModulus);
+
+            this.line( this.frame.centerX() - 5 , centerPos - lineY  , this.frame.centerX() + 5  , centerPos - lineY , color);
+         }
+
+         for(let x = 1; x <= pieces; x++) {
+
+            /// hit the absolute middle first and then go up
+            let lineY =  (space * x);
+            
+            let isModulus = this.isIncrementModulus(x, increments);
+
+            this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos + (space * x) + 5, -x );
+
+            let color = this.getColor(isModulus);
+
+            this.line( this.frame.centerX() - 5 , centerPos + lineY  , this.frame.centerX() + 5  , centerPos + lineY , color);
+         }
+
+        //  for(let x = 1; x <= pieces; x++) {
+
+        //     let bufferLeft = this.frame.width / 2; 
+        //     let lineX =  (space * x) + bufferLeft;
+
+        //     let isModulus = this.isIncrementModulus(x, increments);
+            
+        //     this.addLabel(isModulus, bufferLeft + (x * space), this.frame.centerY() + 20  , x );
+
+        //     let color = this.getColor(isModulus);
+        //     this.line( lineX , this.frame.centerY() - 5, lineX , this.frame.centerY() + 5, color);
+        //     this.line( this.frame.centerX() , lineY  , this.frame.centerX() , lineY, color);
+             
+        //  }
+    }
+
+    drawXAxis(xAxis, increments = 1 ) {
+        
         this.line(this.frame.margin.x , this.frame.centerY() , this.frame.width - this.frame.margin.x, this.frame.centerY()); /// horizontal line x axis
         
         const pieces = xAxis;
@@ -73,7 +133,6 @@ class GraphObject {
             this.line( lineX , this.frame.centerY() - 5, lineX , this.frame.centerY() + 5, color);
              
          }
-        
     }
 
     isIncrementModulus(increment, increments) {

@@ -31,8 +31,10 @@
 
         <script>
 
-            const graphSize = 200;
-            const increments = 25;
+            const graphXSize = 50;
+            const graphYSize = 10;
+            const incrementsX = 5;
+            const incrementsY = 1;
 
             const can = document.getElementById('c');
             const container = document.getElementById('box');
@@ -55,12 +57,12 @@
 
             window.onload = () => {
                 const graph = redraw(window);
-                graph.draw(graphSize, increments);
+                graph.draw(graphXSize, incrementsX, graphYSize, incrementsY);
             }
 
             window.onresize = () => {
                 const graph = redraw(window);
-                graph.draw(graphSize, increments);
+                graph.draw(graphXSize, incrementsX, graphYSize, incrementsY);
             }
 
         </script>
