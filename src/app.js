@@ -45,6 +45,24 @@ class GraphObject {
         
     }
 
+    drawYAxisIncrement(pieces, increments, centerPos, lineYPosition , isNegative) {
+        
+        let space = ((this.frame.height  / 2) - this.frame.margin.y) / pieces ;
+
+        for(let x = 1; x <= pieces; x++) {
+
+            let lineY =  (lineYPosition * x); // same
+            
+            let isModulus = this.isIncrementModulus(x, increments); // same
+
+            this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos + lineY + 5, isNegative ? -x : x );
+
+            let color = this.getColor(isModulus);
+
+            this.line( this.frame.centerX() - 5 , centerPos + lineY  , this.frame.centerX() + 5  , centerPos + lineY , color);
+         }
+    }
+
     drawYAxis(yAxis, increments = 1) {
         
         this.line(this.frame.centerX() , this.frame.margin.y , this.frame.centerX() , this.frame.height - this.frame.margin.y); /// vertical line y axis
@@ -55,48 +73,22 @@ class GraphObject {
 
         let centerPos = this.frame.height / 2;
 
-        for(let x = 1; x <= pieces; x++) {
+        this.drawYAxisIncrement(pieces , increments , centerPos , -space , false);
+        this.drawYAxisIncrement(pieces , increments , centerPos , space , true);
 
-            /// hit the absolute middle first and then go up
-            let lineY =  (space * x);
+        // for(let x = 1; x <= pieces; x++) {
+
+        //     let lineY =  (space * x);
             
-            let isModulus = this.isIncrementModulus(x, increments);
-
-            this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos - (space * x) + 5, x );
-
-            let color = this.getColor(isModulus);
-
-            this.line( this.frame.centerX() - 5 , centerPos - lineY  , this.frame.centerX() + 5  , centerPos - lineY , color);
-         }
-
-         for(let x = 1; x <= pieces; x++) {
-
-            /// hit the absolute middle first and then go up
-            let lineY =  (space * x);
-            
-            let isModulus = this.isIncrementModulus(x, increments);
-
-            this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos + (space * x) + 5, -x );
-
-            let color = this.getColor(isModulus);
-
-            this.line( this.frame.centerX() - 5 , centerPos + lineY  , this.frame.centerX() + 5  , centerPos + lineY , color);
-         }
-
-        //  for(let x = 1; x <= pieces; x++) {
-
-        //     let bufferLeft = this.frame.width / 2; 
-        //     let lineX =  (space * x) + bufferLeft;
-
         //     let isModulus = this.isIncrementModulus(x, increments);
-            
-        //     this.addLabel(isModulus, bufferLeft + (x * space), this.frame.centerY() + 20  , x );
+
+        //     this.addLabel(isModulus, this.frame.centerX() - 30 , centerPos + (space * x) + 5, -x );
 
         //     let color = this.getColor(isModulus);
-        //     this.line( lineX , this.frame.centerY() - 5, lineX , this.frame.centerY() + 5, color);
-        //     this.line( this.frame.centerX() , lineY  , this.frame.centerX() , lineY, color);
-             
-        //  }
+
+        //     this.line( this.frame.centerX() - 5 , centerPos + lineY  , this.frame.centerX() + 5  , centerPos + lineY , color);
+        // }
+
     }
 
     drawXAxis(xAxis, increments = 1 ) {
