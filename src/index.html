@@ -3,26 +3,48 @@
     <head>
         <base href=".">
         <script src="./app.js" type="text/javascript"></script>
+        <style>
+        
+            .container {
+                overflow: hidden;
+                width: 90vw;
+                height: 90vh;
+                margin: 5vh 5vw 5vh 5vw;
+                border: 1px solid #a1a1a1;
+                padding: 10px;
+            }
+
+            canvas {
+                margin: 0px!important;
+                padding: 0px!important;
+                width: 100%;
+                height: 100%;
+            }
+        </style>
     </head>
     <body>
 
-        <canvas id="c"></canvas>
+        <div id="box" class="container">
+            <canvas style="margin: 10px auto 10px auto;" id="c"></canvas>
+        </div>
+        
 
         <script>
             const can = document.getElementById('c');
+            const container = document.getElementById('box');
             const context = can.getContext('2d');
             
             
-            const graphFactory = (win) => {
-                const grid = new GridObject(win.innerWidth, win.innerHeight);
+            const graphFactory = (container) => {
+                const grid = new GridObject(container.innerWidth, container.innerHeight);
                 const graph = new GraphObject(context,grid);
-                can.width = win.innerWidth;
-                can.height = win.innerHeight;
+                can.width = container.innerWidth;
+                can.height = container.innerHeight;
                 return graph;
             }
             
-            const redraw = (win) => {
-                const graph = graphFactory(win);
+            const redraw = (container) => {
+                const graph = graphFactory(container);
                 graph.redraw(graph.frame);
                 return graph;
             }
