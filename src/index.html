@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <base href=".">
+        <script src="./app.js" type="text/javascript"></script>
+    </head>
+    <body>
+
+        <canvas id="c"></canvas>
+
+        <script>
+            const can = document.getElementById('c');
+            const context = can.getContext('2d');
+            
+            
+            const graphFactory = (win) => {
+                const grid = new GridObject(win.innerWidth, win.innerHeight);
+                const graph = new GraphObject(context,grid);
+                can.width = win.innerWidth;
+                can.height = win.innerHeight;
+                return graph;
+            }
+            
+            const redraw = (win) => {
+                const graph = graphFactory(win);
+                graph.redraw(graph.frame);
+                return graph;
+            }
+
+            window.onload = () => {
+                const graph = redraw(window);
+                graph.draw(can.getContext('2d'));
+            }
+
+            window.onresize = () => {
+                const graph = redraw(window);
+                graph.draw(can.getContext('2d'));
+            }
+
+        </script>
+
+    </body>
+</html>

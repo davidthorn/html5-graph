@@ -1,0 +1,11 @@
+{
+  "name": "html5-graph",
+  "version": "1.0.0",
+  "description": "This library creates a graph using javascript and a html 5 canvas",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
