@@ -30,6 +30,10 @@
         
 
         <script>
+
+            const graphSize = 200;
+            const increments = 25;
+
             const can = document.getElementById('c');
             const container = document.getElementById('box');
             const context = can.getContext('2d');
@@ -51,12 +55,12 @@
 
             window.onload = () => {
                 const graph = redraw(window);
-                graph.draw(can.getContext('2d'));
+                graph.draw(graphSize, increments);
             }
 
             window.onresize = () => {
                 const graph = redraw(window);
-                graph.draw(can.getContext('2d'));
+                graph.draw(graphSize, increments);
             }
 
         </script>
