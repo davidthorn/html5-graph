@@ -17,8 +17,7 @@
             canvas {
                 margin: 0px!important;
                 padding: 0px!important;
-                width: 100%;
-                height: 100%;
+                
             }
         </style>
     </head>
@@ -31,37 +30,47 @@
 
         <script>
 
+            let points = [];
+
             const graphXSize = 50;
             const graphYSize = 50;
             const incrementsX = 10;
-            const incrementsY = 5;
+            const incrementsY = 10;
 
-            const can = document.getElementById('c');
-            const container = document.getElementById('box');
-            const context = can.getContext('2d');
-            
-            
-            const graphFactory = (container) => {
-                const grid = new GridObject(container.innerWidth, container.innerHeight);
-                const graph = new GraphObject(context,grid);
-                can.width = container.innerWidth;
-                can.height = container.innerHeight;
-                return graph;
+            const _container = () => {
+                return document.getElementById('box');
+            }
+
+            const _canvas = () => {
+                return document.getElementById('c');
             }
             
-            const redraw = (container) => {
-                const graph = graphFactory(container);
+            const graphFactory = (container, context) => {
+
+                const width = container.getBoundingClientRect().width;
+                const height = container.getBoundingClientRect().height;
+                const grid = new GridObject(width, height);
+                const graph = new GraphObject(context,grid);
+                _canvas().width = width;
+                _canvas().height = height;
+                return graph;
+            }
+              
+            const redraw = (container, context) => {
+                const graph = graphFactory(container,context);
                 graph.redraw(graph.frame);
                 return graph;
             }
 
             window.onload = () => {
-                const graph = redraw(window);
+
+                const graph = redraw(_container(), _canvas().getContext('2d'));
                 graph.draw(graphXSize, incrementsX, graphYSize, incrementsY);
             }
 
             window.onresize = () => {
-                const graph = redraw(window);
+                const context = _canvas().getContext('2d');
+                const graph = redraw(_container(), context);
                 graph.draw(graphXSize, incrementsX, graphYSize, incrementsY);
             }
 

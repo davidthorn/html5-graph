@@ -1,8 +1,8 @@
 class GridObject {
 
-    constructor(width, height, marginX = 10, marginY = 10) {
-        this.width = width;
-        this.height = height;
+    constructor(width, height, marginX = 30, marginY = 30) {
+        this.width = width - (marginX * 2 );
+        this.height = height - (marginY * 2);
         this.margin = {
             x: marginX,
             y: marginY
@@ -37,7 +37,6 @@ class GraphObject {
     }
 
     draw(xAxis, incrementsX = 1, yAxis, incrementsY = 1) {
-
         this.context.fillStyle = 'white';
         this.context.fillRect(0, 0, this.frame.width, this.frame.height);
         this.drawXAxis(xAxis, incrementsX);
