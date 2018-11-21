@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  watch: false,
   entry: './src/main.ts',
   module: {
     rules: [
@@ -17,5 +18,4 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
-  }
-};
+  }};
