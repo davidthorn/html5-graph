@@ -2,8 +2,8 @@
 
  let points: GridPoint[] = []
 
- const graphXSize = 6;
- const graphYSize = 6;
+ const graphXSize = 4;
+ const graphYSize = graphXSize * graphXSize;
  const incrementsX = 1;
  const incrementsY = 1;
 
@@ -33,27 +33,6 @@
  }
 
  window.onload = () => {
-
-    points.push({
-        x: -0.5,
-        y: 0.5
-    });
-
-    points.push({
-        x: 6,
-        y: -3
-    });
-
-    points.push({
-        x: 0,
-        y: 1
-    });
-
-    points.push({
-        x: 0,
-        y: 2
-    });
-
      const graph = redraw(_container(), _canvas().getContext('2d'));
      graph.draw();
      graph.drawPoints(points);

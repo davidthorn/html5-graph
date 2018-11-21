@@ -38,7 +38,7 @@ export class GridObject {
         let space_x = (this.width / 2) / this.x_axis_length
         let space_y = (this.height / 2) / this.y_axis_length
         let x_point = this.centerXPos + (x * space_x)
-        let y_point = this.centerYPos + (y * space_y)
+        let y_point = this.centerYPos + (-y * space_y)
         return new GridPoint(x_point  , y_point)
     }
 

@@ -115,6 +115,49 @@ export class GraphObject {
         points.forEach(point => {
             this.plotPositionAt(point.x ,  point.y)
         })
+
+       // this.drawCurve(new GridPoint(0, 0), new GridPoint(-4 , 4))
+       // this.drawCurve(new GridPoint(0, 0), new GridPoint(4 , 4))
+
+       // this.drawCurve(new GridPoint(0, 0), new GridPoint(-4 , -4))
+       // this.drawCurve(new GridPoint(0, 0), new GridPoint(4 , -4))
+
+        this.drawSquareCurve(4)
+        
+        
+    }
+
+    drawCurve(from: GridPoint , to: GridPoint) {
+        const fromPoint: GridPoint = this.frame.getPoint(from.x, from.y)
+        const midPoint: GridPoint = this.frame.getPoint(to.x, from.y)
+        const toPoint: GridPoint = this.frame.getPoint(to.x, to.y)
+        this.context.beginPath();
+        this.context.moveTo(fromPoint.x , fromPoint.y)
+        this.context.strokeStyle = 'black'
+        this.context.quadraticCurveTo(midPoint.x , midPoint.y , toPoint.x , toPoint.y)
+        this.context.stroke()
+        this.context.closePath();
+    }
+
+    drawSquareCurve(square: number) {
+       
+        let absValue = Math.abs(square)
+        let start = this.frame.getPoint(0, 0)
+        let startPos = this.frame.getPoint(0, 0)
+
+        for(let x = 0; x <= absValue; x += 0.001) {
+            let y = square < 0 ? -(x * x) : x * x 
+            let newPointNeg = this.frame.getPoint(-x , y)
+            this.line(start.x , start.y , newPointNeg.x , newPointNeg.y)
+            let newPointPos = this.frame.getPoint(x , y)
+            this.line(startPos.x , startPos.y , newPointPos.x , newPointPos.y)
+            start = newPointNeg
+            startPos = newPointPos
+        }
+
+        if(square < 0) return
+        this.drawSquareCurve(-square)
+        
     }
 
 }
