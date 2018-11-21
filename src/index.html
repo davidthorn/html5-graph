@@ -2,7 +2,7 @@
 <html>
     <head>
         <base href=".">
-        <script src="./app.js" type="text/javascript"></script>
+        <script src="./bundle.js" type="text/javascript"></script>
         <style>
         
             .container {
@@ -22,59 +22,8 @@
         </style>
     </head>
     <body>
-
         <div id="box" class="container">
             <canvas style="margin: 10px auto 10px auto;" id="c"></canvas>
         </div>
-        
-
-        <script>
-
-            let points = [];
-
-            const graphXSize = 50;
-            const graphYSize = 50;
-            const incrementsX = 10;
-            const incrementsY = 10;
-
-            const _container = () => {
-                return document.getElementById('box');
-            }
-
-            const _canvas = () => {
-                return document.getElementById('c');
-            }
-            
-            const graphFactory = (container, context) => {
-
-                const width = container.getBoundingClientRect().width;
-                const height = container.getBoundingClientRect().height;
-                const grid = new GridObject(width, height);
-                const graph = new GraphObject(context,grid);
-                _canvas().width = width;
-                _canvas().height = height;
-                return graph;
-            }
-              
-            const redraw = (container, context) => {
-                const graph = graphFactory(container,context);
-                graph.redraw(graph.frame);
-                return graph;
-            }
-
-            window.onload = () => {
-
-                const graph = redraw(_container(), _canvas().getContext('2d'));
-                graph.draw(graphXSize, incrementsX, graphYSize, incrementsY);
-            }
-
-            window.onresize = () => {
-                const context = _canvas().getContext('2d');
-                const graph = redraw(_container(), context);
-                graph.draw(graphXSize, incrementsX, graphYSize, incrementsY);
-            }
-
-        </script>
-
     </body>
 </html>
