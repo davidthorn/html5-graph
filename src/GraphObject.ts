@@ -1,4 +1,4 @@
-import { GridObject, GridMargin, GridIncrementColor, GridAxisOption } from './graph.module'
+import { GridObject, GridMargin, GridPoint, GridIncrementColor, GridAxisOption } from './graph.module'
 import { GridAxis } from './graph';
 
 export class GraphObject {
@@ -24,32 +24,31 @@ export class GraphObject {
         this.frame = frame;
     }
 
-    draw(numberOfXIncrements: number, incrementsX: number = 1, numberOfYIncrements: number, incrementsY: number = 1) {
+    draw() {
         this.context.fillStyle = 'white';
-        this.context.fillRect(0, 0, this.frame.width, this.frame.height);
-        this.drawXAxis(numberOfXIncrements, incrementsX);
-        this.drawYAxis(numberOfYIncrements, incrementsY);
-
+        this.context.fillRect(0, 0, this.frame.centerXPos * 2, this.frame.centerYPos * 2);
+        this.drawXAxis(this.frame.x_axis_length, this.frame.x_increments);
+        this.drawYAxis(this.frame.y_axis_length, this.frame.y_increments);
     }
 
     drawYAxis(numberOfIncrements: number, increments: number = 1) {
 
-        this.line(this.frame.centerX(), this.frame.margin.y, this.frame.centerX(), this.frame.height - this.frame.margin.y); /// vertical line y axis
+        this.line(this.frame.centerXPos, this.frame.margin.y, this.frame.centerXPos, this.frame.height + this.frame.margin.y); /// vertical line y axis
+   
+        let space = ((this.frame.height / 2)) / numberOfIncrements;
 
-        let space = ((this.frame.height / 2) - this.frame.margin.y) / numberOfIncrements;
-
-        this.drawAxisIncrement(GridAxisOption.y, numberOfIncrements, increments, this.frame.height / 2, space, false)
-        this.drawAxisIncrement(GridAxisOption.y, numberOfIncrements, increments, this.frame.height / 2, -space, true)
+        this.drawAxisIncrement(GridAxisOption.y, numberOfIncrements, increments, this.frame.centerYPos, space, false)
+        this.drawAxisIncrement(GridAxisOption.y, numberOfIncrements, increments, this.frame.centerYPos, -space, true)
     }
 
     drawXAxis(numberOfIncrements: number, increments = 1) {
 
-        this.line(this.frame.margin.x, this.frame.centerY(), this.frame.width - this.frame.margin.x, this.frame.centerY()); /// horizontal line x axis
+        this.line(this.frame.margin.x, this.frame.centerYPos, this.frame.width + this.frame.margin.x, this.frame.centerYPos); /// horizontal line x axis
 
-        let space = ((this.frame.width / 2) - this.frame.margin.x) / numberOfIncrements;
+        let space = ((this.frame.width / 2) ) / numberOfIncrements;
 
-        this.drawAxisIncrement(GridAxisOption.x, numberOfIncrements, increments, this.frame.width / 2, space, false)
-        this.drawAxisIncrement(GridAxisOption.x, numberOfIncrements, increments, this.frame.width / 2, -space, true)
+        this.drawAxisIncrement(GridAxisOption.x, numberOfIncrements, increments, this.frame.centerXPos, space, false)
+        this.drawAxisIncrement(GridAxisOption.x, numberOfIncrements, increments, this.frame.centerXPos, -space, true)
     }
 
     drawAxisIncrement(gridAxis: GridAxisOption, pieces: number, increments: number, centerPos: number, linePosition: number, isNegative: boolean) {
@@ -63,13 +62,13 @@ export class GraphObject {
 
             switch (gridAxis) {
                 case GridAxisOption.x:
-                    this.addLabel(isModulus, centerPos + line, this.frame.centerY() + 20, String(isNegative ? -x : x));
-                    this.line(centerPos + line, this.frame.centerY() - 5, centerPos + line, this.frame.centerY() + 5, color);
+                    this.addLabel(isModulus, centerPos + line, this.frame.centerYPos + 25, String(isNegative ? -x : x));
+                    this.line(centerPos + line, this.frame.centerYPos + 0, centerPos + line, this.frame.centerYPos + 5, color);
                     break;
                 case GridAxisOption.y:
                     /// the isNegative needs to be negated because minus is positive and positive is minus
-                    this.addLabel(isModulus, this.frame.centerX() - 30, centerPos + line + 5, String(!isNegative ? -x : x));
-                    this.line(this.frame.centerX() - 5, centerPos + line, this.frame.centerX() + 5, centerPos + line, color);
+                    this.addLabel(isModulus, this.frame.centerXPos - 30, centerPos + line + 5, String(!isNegative ? -x : x));
+                    this.line(this.frame.centerXPos - 5, centerPos + line, this.frame.centerXPos + 5, centerPos + line, color);
                     break;
                 default: break;
             }
@@ -104,7 +103,18 @@ export class GraphObject {
     }
 
     plotPositionAt(x: number , y: number): void {
+        const point: GridPoint = this.frame.getPoint(x, y)
+        this.context.beginPath();
+        this.context.fillStyle = "red";
+        this.context.arc(point.x , point.y , 6, 0 , 2*Math.PI)
+        this.context.fill()
+        this.context.closePath();
+    }
 
+    drawPoints(points: GridPoint[]) {
+        points.forEach(point => {
+            this.plotPositionAt(point.x ,  point.y)
+        })
     }
 
 }
