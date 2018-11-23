@@ -1,6 +1,7 @@
-export class GridPoint {
+export class GridPoint implements GraphGridPoint {
 
     x: number
+    
     y: number
 
     constructor(x: number, y: number) {

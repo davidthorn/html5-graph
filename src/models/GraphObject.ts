@@ -1,17 +1,28 @@
 import { GridObject, GridPoint, GridColor, GridAxisOption } from './graph.module'
 
-export class GraphObject {
+export class GraphObject implements Graph {
+
+    container: HTMLElement
+
+    canvas: HTMLCanvasElement
 
     context: any
     
-    frame: GridObject
+    frame: GridType
 
     incremetColor: GridColor = GridColor.increment
 
     separatorColor: GridColor = GridColor.seperator
 
-    constructor(context: any, frame: GridObject) {
-        this.context = context;
+    constructor(container: HTMLElement , frame: GridType) {
+        this.container = container
+        this.canvas = document.createElement('canvas') as HTMLCanvasElement
+        this.canvas.setAttribute('id' , 'html5-graph')
+        this.canvas.setAttribute('class' , 'html5-canvas')
+        this.container.appendChild(this.canvas)
+        this.canvas.width = this.container.getBoundingClientRect().width
+        this.canvas.height = this.container.getBoundingClientRect().height
+        this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
         this.frame = frame;
     }
 
@@ -19,8 +30,9 @@ export class GraphObject {
         return isModulus ? this.incremetColor : this.separatorColor;
     }
 
-    redraw(frame: GridObject): void {
-        this.frame = frame;
+    redraw(): void {
+        this.frame.redraw(this.container.getBoundingClientRect() as DOMRect)
+        this.draw()
     }
 
     draw() {
@@ -58,7 +70,6 @@ export class GraphObject {
             
             let isModulus = this.isIncrementModulus(x, increments); // same
             let color = this.getColor(isModulus);
-            console.log('lineposition', x , isModulus)
             switch (gridAxis) {
                 case GridAxisOption.x:
                     this.addLabel(isModulus, centerPos + line, this.frame.centerYPos + 25, String(isNegative ? -x : x));
@@ -110,7 +121,7 @@ export class GraphObject {
         this.context.closePath();
     }
 
-    drawPoints(points: GridPoint[]) {
+    drawPoints(points: GraphGridPoint[]): void {
         points.forEach(point => {
             this.plotPositionAt(point.x ,  point.y)
         })
@@ -121,15 +132,15 @@ export class GraphObject {
        // this.drawCurve(new GridPoint(0, 0), new GridPoint(-4 , -4))
        // this.drawCurve(new GridPoint(0, 0), new GridPoint(4 , -4))
 
-        this.drawSquareCurve(4)
+        
         
         
     }
 
-    drawCurve(from: GridPoint , to: GridPoint) {
-        const fromPoint: GridPoint = this.frame.getPoint(from.x, from.y)
-        const midPoint: GridPoint = this.frame.getPoint(to.x, from.y)
-        const toPoint: GridPoint = this.frame.getPoint(to.x, to.y)
+    drawCurve(from: GraphGridPoint , to: GraphGridPoint): void {
+        const fromPoint: GraphGridPoint = this.frame.getPoint(from.x, from.y)
+        const midPoint: GraphGridPoint = this.frame.getPoint(to.x, from.y)
+        const toPoint: GraphGridPoint = this.frame.getPoint(to.x, to.y)
         this.context.beginPath();
         this.context.moveTo(fromPoint.x , fromPoint.y)
         this.context.strokeStyle = 'black'
@@ -138,8 +149,14 @@ export class GraphObject {
         this.context.closePath();
     }
 
-    drawSquareCurve(square: number) {
-       
+    drawSquareCurve(square: number, shouldRedraw: boolean = true): void {
+        
+        if(shouldRedraw) {
+            this.frame.setAxis(square , square * square)
+            this.frame.setAxisIncrements(square % 2 === 0 ? 2 : 1 , square)
+            this.redraw()
+        }
+
         let absValue = Math.abs(square)
         let start = this.frame.getPoint(0, 0)
         let startPos = this.frame.getPoint(0, 0)
@@ -155,8 +172,19 @@ export class GraphObject {
         }
 
         if(square < 0) return
-        this.drawSquareCurve(-square)
+        this.drawSquareCurve(-square, false)
         
     }
 
+    setAxis(x: number , y: number, redraw: boolean = false ): void {
+        this.frame.setAxis(x, y)
+        if(!redraw) return
+        this.redraw()
+    }
+
+    setAxisIncrements(x: number , y: number , redraw: boolean = false): void {
+        this.frame.setAxisIncrements(x, y)
+        if(!redraw) return
+        this.redraw()
+    }
 }

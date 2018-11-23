@@ -1,0 +1,13 @@
+.container {
+    overflow: hidden;
+    width: 90vw;
+    height: 90vh;
+    margin: 5vh auto 5vh auto;
+    border: 1px solid #a1a1a1;
+}
+
+canvas {
+    margin: 0px!important;
+    padding: 0px!important;
+    
+}
