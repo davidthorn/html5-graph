@@ -1,5 +1,4 @@
-import { GridObject, GridMargin, GridPoint, GridIncrementColor, GridAxisOption } from './graph.module'
-import { GridAxis } from './graph';
+import { GridObject, GridPoint, GridColor, GridAxisOption } from './graph.module'
 
 export class GraphObject {
 
@@ -7,16 +6,16 @@ export class GraphObject {
     
     frame: GridObject
 
-    incremetColor: GridIncrementColor = GridIncrementColor.increment
+    incremetColor: GridColor = GridColor.increment
 
-    separatorColor: GridIncrementColor = GridIncrementColor.seperator
+    separatorColor: GridColor = GridColor.seperator
 
     constructor(context: any, frame: GridObject) {
         this.context = context;
         this.frame = frame;
     }
 
-    getColor(isModulus: boolean): GridIncrementColor  {
+    getColor(isModulus: boolean): GridColor  {
         return isModulus ? this.incremetColor : this.separatorColor;
     }
 
@@ -56,10 +55,10 @@ export class GraphObject {
         for (let x = 1; x <= pieces; x++) {
 
             let line = (linePosition * x); // same
-
+            
             let isModulus = this.isIncrementModulus(x, increments); // same
             let color = this.getColor(isModulus);
-
+            console.log('lineposition', x , isModulus)
             switch (gridAxis) {
                 case GridAxisOption.x:
                     this.addLabel(isModulus, centerPos + line, this.frame.centerYPos + 25, String(isNegative ? -x : x));

@@ -1,11 +1,11 @@
- import { GraphObject, GridObject, GridPoint } from './graph.module'
+ import { GraphObject, GridObject, GridPoint } from './models/graph.module'
 
  let points: GridPoint[] = []
 
  const graphXSize = 4;
  const graphYSize = graphXSize * graphXSize;
- const incrementsX = 1;
- const incrementsY = 1;
+ const incrementsX = 2;
+ const incrementsY = 4;
 
  const _container = () => {
      return document.getElementById('box');

@@ -2,11 +2,10 @@
   "name": "html5-graph-1",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack; cp -r src/*.html dist/",
-    "watch": "cp -r src/*.html dist/ && webpack; "
+    "build": "webpack && cp -r src/assets/* dist/"
   },
   "author": "",
   "license": "ISC",
@@ -16,4 +15,5 @@
     "webpack": "^4.26.0",
     "webpack-cli": "^3.1.2"
   }
+
 }

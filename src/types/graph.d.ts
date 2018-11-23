@@ -1,4 +1,7 @@
-export type GridMargin = {
+type GridMargin = {
     x: number
     y: number
 }
+
+
+

@@ -1,5 +1,4 @@
-import { GridPoint } from './graph.module'
-import { GridMargin } from './GridMargin'
+import { GridPoint } from './GridPoint'
 
 export class GridObject {
 
@@ -16,6 +15,8 @@ export class GridObject {
     constructor(width: number, height: number, x_axis_length: number, y_axis_length: number,  x_increments: number, y_increments: number, marginX = 30, marginY = 30 ) {
         this.centerXPos = width / 2
         this.centerYPos = height / 2
+        this.x_increments  = x_increments
+        this.y_increments = y_increments
         this.width = width - (marginX * 2 );
         this.height = height - (marginY * 2);
         this.margin = {

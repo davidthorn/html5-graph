@@ -1,5 +1,4 @@
 export { GraphObject } from './GraphObject' 
 export { GridObject } from './GridObject' 
-export { GridMargin } from './GridMargin' 
 export { GridPoint } from './GridPoint'
-export { GridAxis, GridAxisOption, GridIncrementColor } from './graph'
+export { GridAxisOption, GridColor, GridAxis } from './enums'
