@@ -16,6 +16,9 @@
      return window.graph;
  }
    
+Window.prototype.createGridPoint = (x: number, y: number): GraphGridPoint => {
+    return new GridPoint(x, y)
+}
 
  window.onload = () => {
      Window.prototype.graph = graphFactory(_container() as HTMLElement)

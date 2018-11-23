@@ -1,4 +1,4 @@
-import { GridObject, GridPoint, GridColor, GridAxisOption } from './graph.module'
+import { GridPoint, GridColor, GridAxisOption } from './graph.module'
 
 export class GraphObject implements Graph {
 
@@ -135,18 +135,6 @@ export class GraphObject implements Graph {
         
         
         
-    }
-
-    drawCurve(from: GraphGridPoint , to: GraphGridPoint): void {
-        const fromPoint: GraphGridPoint = this.frame.getPoint(from.x, from.y)
-        const midPoint: GraphGridPoint = this.frame.getPoint(to.x, from.y)
-        const toPoint: GraphGridPoint = this.frame.getPoint(to.x, to.y)
-        this.context.beginPath();
-        this.context.moveTo(fromPoint.x , fromPoint.y)
-        this.context.strokeStyle = 'black'
-        this.context.quadraticCurveTo(midPoint.x , midPoint.y , toPoint.x , toPoint.y)
-        this.context.stroke()
-        this.context.closePath();
     }
 
     drawSquareCurve(square: number, shouldRedraw: boolean = true): void {

@@ -1,3 +1,4 @@
+
 type GridMargin = {
     x: number
     y: number
@@ -28,7 +29,7 @@ interface GraphGridPoint {
 interface Graph {
     frame: GridType
     drawSquareCurve(square: number, shouldRedraw: boolean): void 
-    drawCurve(from: GraphGridPoint , to: GraphGridPoint): void 
+    // drawCurve(from: GraphGridPoint , to: GraphGridPoint): void 
     drawPoints(points: GraphGridPoint[]): void
     draw(): void
     redraw(): void
@@ -38,4 +39,5 @@ interface Graph {
 
 interface Window {
     graph: Graph
+    createGridPoint(x: number, y: number): GraphGridPoint
 }
